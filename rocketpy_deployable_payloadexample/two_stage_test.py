@@ -48,6 +48,8 @@ rocket_stage1 = Rocket(
     coordinate_system_orientation="tail_to_nose"
 )
 
+rocket_stage1.add_motor(motor1, position=-1.255)
+
 rocket_stage1.set_rail_buttons(
     upper_button_position=0.0818,
     lower_button_position=-0.618,
@@ -66,38 +68,9 @@ FinSet = rocket_stage1.add_trapezoidal_fins(
     position=-1.04956,
     cant_angle=0.5,
 )
-# Parameters for first stage tail
-# Tail = rocket_stage1.addTail(topRadius=0.0635, bottomRadius=0.0435, length=0.060, distanceToCM=-1.194656)
-
-# Defining triggers for parachutes
-def drogueTrigger(p, y):
-    return True if y[5] < 0 else False
-
-def mainTrigger(p, y):
-    return True if y[5] < 0 and y[2] < 800 else False
-
-"""# Parameters for first stage main parachute
-Main = rocket_stage1.add_parachute(
-    "Main",
-    cd_s=7.2,
-    trigger=800,
-    sampling_rate=105,
-    lag=1.5,
-    noise=(0, 8.3, 0.5),
-)"""
-
-"""# Parameters for first stage drogue
-Drogue = rocket_stage1.add_parachute(
-    "Drogue",
-    cd_s=0.72,
-    trigger="apogee",
-    sampling_rate=105,
-    lag=1.5,
-    noise=(0, 8.3, 0.5),
-)"""
 
 # Parameters for first stage rocket flight
-Flight_stage1 = Flight(rocket=rocket_stage1, environment=Env1, rail_length=5.2, inclination=85, heading=0 ,verbose=True)
+Flight_stage1 = Flight(rocket=rocket_stage1, environment=Env1, rail_length=5.2, inclination=85, heading=0, terminate_on_apogee=True,verbose=True)
 
 # Post processing of first stage
 
@@ -106,8 +79,32 @@ Flight_stage1 = Flight(rocket=rocket_stage1, environment=Env1, rail_length=5.2, 
 """
 
 # Ignition delay between stage 1 and stage 2
-ignition_delay = 4
-tsecond_stage = motor1.burn_out_time + ignition_delay
+#ignition_delay = 0.1
+# Use the apogee time of stage 1 to start stage 2
+tsecond_stage = Flight_stage1.t
+
+print("Apogee time:", Flight_stage1.apogee_time)
+print("Flight_stage1 time array max:", Flight_stage1.t)
+
+
+# Build the initial solution vector at apogee time
+initial_solution = [
+    tsecond_stage,
+    Flight_stage1.x(tsecond_stage),
+    Flight_stage1.y(tsecond_stage),
+    Flight_stage1.z(tsecond_stage),
+    Flight_stage1.vx(tsecond_stage),
+    Flight_stage1.vy(tsecond_stage),
+    Flight_stage1.vz(tsecond_stage),
+    Flight_stage1.e0(tsecond_stage),
+    Flight_stage1.e1(tsecond_stage),
+    Flight_stage1.e2(tsecond_stage),
+    Flight_stage1.e3(tsecond_stage),
+    Flight_stage1.w1(tsecond_stage),
+    Flight_stage1.w2(tsecond_stage),
+    Flight_stage1.w3(tsecond_stage),
+]
+
 
 # Parameters for second stage environment
 Env2 = Environment(
@@ -117,35 +114,41 @@ Env2 = Environment(
     date=(2020, 9, 21, 12) # Tomorrow's date in year, month, day, hour UTC format
 ) 
 
-# Parameters for second stage motor
-motor2 = motor1
 
 # Parameters for the second stage rocket
-rocket_stage2 = rocket_stage1
+rocket_stage2 = Rocket(
+    radius=127 / 2000,
+    mass=10,
+    inertia=(6.321, 6.321, 0.034),
+    power_off_drag="./powerOffDragCurve.csv",
+    power_on_drag="./powerOnDragCurve.csv",
+    center_of_mass_without_motor=0,
+    coordinate_system_orientation="tail_to_nose"
+)
 
+rocket_stage2.add_motor(motor1, position=-1.255)
 
-# Parameters for second stage main parachute
-"""Main = rocket_stage2.add_parachute(
-    "Main",
-    cd_s=7.2,
-    trigger=800,
-    sampling_rate=105,
-    lag=1.5,
-    noise=(0, 8.3, 0.5),
-)"""
+rocket_stage2.set_rail_buttons(
+    upper_button_position=0.0818,
+    lower_button_position=-0.618,
+    angular_position=45,
+)
 
-# Parameters for the second stage drogue
-"""Drogue = rocket_stage2.add_parachute(
-    "Drogue",
-    cd_s=0.72,
-    trigger=None,
-    sampling_rate=105,
-    lag=1.5,
-    noise=(0, 8.3, 0.5),
-)"""
+# Parameters for first stage nose cone
+NoseCone = rocket_stage2.add_nose(length=0.78359, kind="vonKarman", position=1.278)
+
+# Parameters for first stage fins
+FinSet = rocket_stage2.add_trapezoidal_fins(
+    n=4,
+    root_chord=0.120,
+    tip_chord=0.060,
+    span=0.110,
+    position=-1.04956,
+    cant_angle=0.5,
+)
 
 # Parameters for the second stage flight
-Flight_stage2 = Flight(rocket=rocket_stage2, environment=Env2, inclination=Flight_stage1.w1(tsecond_stage), rail_length=5.2, heading=0, initial_solution=Flight_stage1 ) #[0, Flight_stage1.x(tsecond_stage), 0, Flight_stage1.z(tsecond_stage), Flight_stage1.vx(tsecond_stage), Flight_stage1.vy(tsecond_stage), 0, Flight_stage1.e0(tsecond_stage), Flight_stage1.e1(tsecond_stage), Flight_stage1.e2(tsecond_stage), Flight_stage1.e3(tsecond_stage), Flight_stage1.w1(tsecond_stage), Flight_stage1.w2(tsecond_stage), Flight_stage1.w3(tsecond_stage)])
+Flight_stage2 = Flight(rocket=rocket_stage2, environment=Env2, inclination=Flight_stage1.w1(tsecond_stage), rail_length=5.2, heading=0, initial_solution=initial_solution ) #[0, Flight_stage1.x(tsecond_stage), 0, Flight_stage1.z(tsecond_stage), Flight_stage1.vx(tsecond_stage), Flight_stage1.vy(tsecond_stage), 0, Flight_stage1.e0(tsecond_stage), Flight_stage1.e1(tsecond_stage), Flight_stage1.e2(tsecond_stage), Flight_stage1.e3(tsecond_stage), Flight_stage1.w1(tsecond_stage), Flight_stage1.w2(tsecond_stage), Flight_stage1.w3(tsecond_stage)])
 
 # Post processing of the second stage
 from rocketpy.plots.compare import CompareFlights
@@ -153,6 +156,8 @@ from rocketpy.plots.compare import CompareFlights
 comparison = CompareFlights(
     [Flight_stage1, Flight_stage2]
 )
+
+comparison.trajectories_3d(legend=True)
 
 """
 #//////////////////////////////////////////////             Print Data             //////////////////////////////////////////////////////////////////////////////////////#
