@@ -1,7 +1,8 @@
 import numpy as np
 from rocketpy import Environment, SolidMotor, Flight
 from rocketpy.plots.compare import CompareFlights
-from utils.two_stage import TwoStageRocket, mass
+from utils.two_stage import TwoStageRocket
+from models import mass, drag, motors
 
 
 env = Environment(latitude=32.990254, longitude=-106.974998, elevation=1400)
