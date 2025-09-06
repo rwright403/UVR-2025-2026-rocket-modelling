@@ -1,5 +1,4 @@
 from rocketpy import Rocket
-from utils import mass
 
 
 class TwoStageRocket:
