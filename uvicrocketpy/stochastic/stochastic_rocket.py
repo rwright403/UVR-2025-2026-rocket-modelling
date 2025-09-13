@@ -3,12 +3,12 @@
 import warnings
 from random import choice
 
-from rocketpy.control import _Controller
-from rocketpy.mathutils.vector_matrix import Vector
-from rocketpy.motors.empty_motor import EmptyMotor
-from rocketpy.motors.motor import GenericMotor, Motor
-from rocketpy.motors.solid_motor import SolidMotor
-from rocketpy.rocket.aero_surface import (
+from uvicrocketpy.control import _Controller
+from uvicrocketpy.mathutils.vector_matrix import Vector
+from uvicrocketpy.motors.empty_motor import EmptyMotor
+from uvicrocketpy.motors.motor import GenericMotor, Motor
+from uvicrocketpy.motors.solid_motor import SolidMotor
+from uvicrocketpy.rocket.aero_surface import (
     AirBrakes,
     EllipticalFins,
     NoseCone,
@@ -16,11 +16,11 @@ from rocketpy.rocket.aero_surface import (
     Tail,
     TrapezoidalFins,
 )
-from rocketpy.rocket.components import Components
-from rocketpy.rocket.parachute import Parachute
-from rocketpy.rocket.rocket import Rocket
-from rocketpy.stochastic.stochastic_generic_motor import StochasticGenericMotor
-from rocketpy.stochastic.stochastic_motor_model import StochasticMotorModel
+from uvicrocketpy.rocket.components import Components
+from uvicrocketpy.rocket.parachute import Parachute
+from uvicrocketpy.rocket.rocket import Rocket
+from uvicrocketpy.stochastic.stochastic_generic_motor import StochasticGenericMotor
+from uvicrocketpy.stochastic.stochastic_motor_model import StochasticMotorModel
 
 from .stochastic_aero_surfaces import (
     StochasticAirBrakes,

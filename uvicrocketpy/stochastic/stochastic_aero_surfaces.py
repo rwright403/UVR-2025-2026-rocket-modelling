@@ -3,7 +3,7 @@ Defines the StochasticNoseCone, StochasticTrapezoidalFins,
 StochasticEllipticalFins, StochasticTail and StochasticRailButtons classes.
 """
 
-from rocketpy.rocket.aero_surface import (
+from uvicrocketpy.rocket.aero_surface import (
     EllipticalFins,
     NoseCone,
     RailButtons,

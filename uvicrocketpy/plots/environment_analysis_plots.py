@@ -5,7 +5,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.animation import PillowWriter as ImageWriter
 from scipy import stats
 
-from rocketpy.units import convert_units
+from uvicrocketpy.units import convert_units
 
 from ..tools import find_two_closest_integers, import_optional_dependency
 from .plot_helpers import show_or_save_plot

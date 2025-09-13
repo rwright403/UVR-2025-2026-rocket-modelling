@@ -1,6 +1,6 @@
 import numpy as np
-from rocketpy import Environment, SolidMotor, Flight
-from rocketpy.plots.compare import CompareFlights
+from uvicrocketpy import Environment, SolidMotor, Flight
+from uvicrocketpy.plots.compare import CompareFlights
 from utils.two_stage import TwoStageRocket
 from models import mass, drag, motors
 
@@ -12,7 +12,7 @@ env.wind_speed = 0
 
 # motors
 s1_motor = SolidMotor(
-    thrust_source="../rocketpy_deployable_payloadexample/Cesaroni_6026M1670-P.eng",
+    thrust_source="../uvicrocketpy_deployable_payloadexample/Cesaroni_6026M1670-P.eng",
     dry_mass=1.815,
     dry_inertia=(0.125, 0.125, 0.002),
     nozzle_radius=33 / 1000,
@@ -30,7 +30,7 @@ s1_motor = SolidMotor(
     coordinate_system_orientation="nozzle_to_combustion_chamber",
 )
 s2_motor = SolidMotor(
-    thrust_source="../rocketpy_deployable_payloadexample/Cesaroni_6026M1670-P.eng",
+    thrust_source="../uvicrocketpy_deployable_payloadexample/Cesaroni_6026M1670-P.eng",
     dry_mass=1.815,
     dry_inertia=(0.125, 0.125, 0.002),
     nozzle_radius=33 / 1000,
@@ -50,8 +50,8 @@ s2_motor = SolidMotor(
 
 # placeholder drag models
 class DummyDrag:
-    power_off = "../rocketpy_deployable_payloadexample/powerOffDragCurve.csv"
-    power_on = "../rocketpy_deployable_payloadexample/powerOnDragCurve.csv"
+    power_off = "../uvicrocketpy_deployable_payloadexample/powerOffDragCurve.csv"
+    power_on = "../uvicrocketpy_deployable_payloadexample/powerOnDragCurve.csv"
 
 # placeholder mass models
 dummy_mass = mass.mass(40, [2.4,0,0], np.diag([2.3, 2.3, 0.03]) )

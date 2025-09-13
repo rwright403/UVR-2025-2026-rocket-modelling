@@ -2,7 +2,7 @@ from cmath import isclose
 from functools import cached_property
 from itertools import product
 
-from rocketpy.tools import euler313_to_quaternions, normalize_quaternions
+from uvicrocketpy.tools import euler313_to_quaternions, normalize_quaternions
 
 
 class Vector:

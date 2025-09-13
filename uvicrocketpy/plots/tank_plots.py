@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Polygon
 
-from rocketpy.mathutils.function import Function
+from uvicrocketpy.mathutils.function import Function
 
 from .plot_helpers import show_or_save_plot
 

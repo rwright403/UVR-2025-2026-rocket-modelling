@@ -1,4 +1,4 @@
-from rocketpy import Rocket
+from uvicrocketpy import Rocket
 
 
 class TwoStageRocket:
@@ -12,7 +12,7 @@ class TwoStageRocket:
 
             mass = mass_model.mass, 
             center_of_mass_without_motor=mass_model.cg[0], 
-            inertia = (mass_model.inertia[0][0], mass_model.inertia[1][1], mass_model.inertia[2][2]),  # RocketPy wants a 3-tuple
+            inertia = (mass_model.inertia[0][0], mass_model.inertia[1][1], mass_model.inertia[2][2]),  # uvicrocketpy wants a 3-tuple
 
             power_off_drag = drag_model.power_off,
             power_on_drag = drag_model.power_on,

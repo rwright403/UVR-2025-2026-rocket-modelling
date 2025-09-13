@@ -1,6 +1,6 @@
 """Defines the StochasticGenericMotor class."""
 
-from rocketpy.motors import GenericMotor
+from uvicrocketpy.motors import GenericMotor
 
 from .stochastic_motor_model import StochasticMotorModel
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from rocketpy.mathutils.function import Function
+from uvicrocketpy.mathutils.function import Function
 
 from ..aero_surface import AeroSurface
 

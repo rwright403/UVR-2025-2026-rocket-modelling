@@ -2,8 +2,8 @@ import warnings
 
 import numpy as np
 
-from rocketpy.plots.aero_surface_plots import _FreeFormFinsPlots
-from rocketpy.prints.aero_surface_prints import _FreeFormFinsPrints
+from uvicrocketpy.plots.aero_surface_plots import _FreeFormFinsPlots
+from uvicrocketpy.prints.aero_surface_prints import _FreeFormFinsPrints
 
 from .fins import Fins
 

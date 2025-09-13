@@ -1,6 +1,6 @@
 """Defines the StochasticFlight class."""
 
-from rocketpy.simulation import Flight
+from uvicrocketpy.simulation import Flight
 
 from .stochastic_model import StochasticModel
 

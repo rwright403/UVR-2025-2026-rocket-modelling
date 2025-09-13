@@ -1,7 +1,7 @@
 import numpy as np
 
-from rocketpy.mathutils.function import Function
-from rocketpy.prints.aero_surface_prints import _RailButtonsPrints
+from uvicrocketpy.mathutils.function import Function
+from uvicrocketpy.prints.aero_surface_prints import _RailButtonsPrints
 
 from .aero_surface import AeroSurface
 

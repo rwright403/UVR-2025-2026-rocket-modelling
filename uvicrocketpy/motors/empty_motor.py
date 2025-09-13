@@ -1,5 +1,5 @@
-from rocketpy.mathutils import Function, funcify_method
-from rocketpy.motors.motor import Motor
+from uvicrocketpy.mathutils import Function, funcify_method
+from uvicrocketpy.motors.motor import Motor
 
 
 class EmptyMotor(Motor):

@@ -2,9 +2,9 @@ import warnings
 
 import numpy as np
 
-from rocketpy.mathutils.function import Function
-from rocketpy.plots.aero_surface_plots import _AirBrakesPlots
-from rocketpy.prints.aero_surface_prints import _AirBrakesPrints
+from uvicrocketpy.mathutils.function import Function
+from uvicrocketpy.plots.aero_surface_plots import _AirBrakesPlots
+from uvicrocketpy.prints.aero_surface_prints import _AirBrakesPrints
 
 from .aero_surface import AeroSurface
 

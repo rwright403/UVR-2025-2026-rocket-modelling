@@ -11,7 +11,7 @@ import warnings
 import netCDF4
 import numpy as np
 
-from rocketpy.tools import bilinear_interpolation
+from uvicrocketpy.tools import bilinear_interpolation
 
 ## Wind data functions
 

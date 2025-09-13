@@ -3,7 +3,7 @@ import numpy as np
 from rocketpy import Environment, SolidMotor, Rocket, Flight
 import datetime
 
-#Using info roughly inspired by from Caltech's AJAKS rocket to learn rocketpy for 2 stages
+#Using info roughly inspired by from Caltech's AJAKS rocket to learn uvicrocketpy for 2 stages
 
 
 

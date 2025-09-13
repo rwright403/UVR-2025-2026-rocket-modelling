@@ -1,19 +1,19 @@
 # UVR-2025-2026-rocket-modelling
-Learning how to implement rocketpy to build an understanding of the design space for a competition rocket
+Learning how to implement uvicrocketpy to build an understanding of the design space for a competition rocket
 
 
 Research:
 | Number | Source                            | Contribution / Use Description                 | Link to Source    |
 |--------|-----------------------------------|------------------------------------------------|-------------------|
-| [1]    | Rocketpy                          | The base of our program. Modified version inside this repo. | https://docs.rocketpy.org/en/latest/# |
+| [1]    | uvicrocketpy                          | The base of our program. Modified version inside this repo. | https://docs.uvicrocketpy.org/en/latest/# |
 
 
 
 
 <!-- old two stage research
 Getting Started:
-- Rocketpy getting started guide: https://docs.rocketpy.org/en/latest/notebooks/getting_started.html
-- Rocketpy two stage documentation:
+- uvicrocketpy getting started guide: https://docs.uvicrocketpy.org/en/latest/notebooks/getting_started.html
+- uvicrocketpy two stage documentation:
 
 Research:
 | Number | Source                            | Contribution / Use Description                 | Link to Source    |
