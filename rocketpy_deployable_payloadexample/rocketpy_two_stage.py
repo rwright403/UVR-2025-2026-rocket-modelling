@@ -49,12 +49,16 @@ payload_mass = 4.5  # in kg
 rocket_mass = 40 - payload_mass  # in kg
 
 
+def cd_power_on(mach, alt):
+    # For illustration: piecewise model
+    return 12
+
 stage1_rocket = Rocket(
     radius=0.1016,
     mass=rocket_mass + rocket_mass,
     inertia=(2.321, 2.321, 0.034),
-    power_off_drag="./powerOffDragCurve.csv",
-    power_on_drag="./powerOnDragCurve.csv",
+    power_off_drag=cd_power_on,
+    power_on_drag=cd_power_on,
     center_of_mass_without_motor=2.42824,
     coordinate_system_orientation="nose_to_tail",
 )
