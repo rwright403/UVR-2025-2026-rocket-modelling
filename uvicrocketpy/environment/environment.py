@@ -10,7 +10,7 @@ import netCDF4
 import numpy as np
 import pytz
 
-from rocketpy.environment.fetchers import (
+from uvicrocketpy.environment.fetchers import (
     fetch_atmospheric_data_from_windy,
     fetch_gefs_ensemble,
     fetch_gfs_file_return_dataset,
@@ -20,7 +20,7 @@ from rocketpy.environment.fetchers import (
     fetch_rap_file_return_dataset,
     fetch_wyoming_sounding,
 )
-from rocketpy.environment.tools import (
+from uvicrocketpy.environment.tools import (
     calculate_wind_heading,
     calculate_wind_speed,
     convert_wind_heading_to_direction,
@@ -34,13 +34,13 @@ from rocketpy.environment.tools import (
     get_pressure_levels_from_file,
     mask_and_clean_dataset,
 )
-from rocketpy.environment.tools import geodesic_to_utm as geodesic_to_utm_tools
-from rocketpy.environment.tools import utm_to_geodesic as utm_to_geodesic_tools
-from rocketpy.environment.weather_model_mapping import WeatherModelMapping
-from rocketpy.mathutils.function import NUMERICAL_TYPES, Function, funcify_method
-from rocketpy.plots.environment_plots import _EnvironmentPlots
-from rocketpy.prints.environment_prints import _EnvironmentPrints
-from rocketpy.tools import (
+from uvicrocketpy.environment.tools import geodesic_to_utm as geodesic_to_utm_tools
+from uvicrocketpy.environment.tools import utm_to_geodesic as utm_to_geodesic_tools
+from uvicrocketpy.environment.weather_model_mapping import WeatherModelMapping
+from uvicrocketpy.mathutils.function import NUMERICAL_TYPES, Function, funcify_method
+from uvicrocketpy.plots.environment_plots import _EnvironmentPlots
+from uvicrocketpy.prints.environment_prints import _EnvironmentPrints
+from uvicrocketpy.tools import (
     bilinear_interpolation,
     geopotential_height_to_geometric_height,
 )

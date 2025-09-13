@@ -7,7 +7,7 @@ from random import choice
 
 import numpy as np
 
-from rocketpy.mathutils.function import Function
+from uvicrocketpy.mathutils.function import Function
 
 from ..tools import get_distribution
 

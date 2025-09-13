@@ -1,7 +1,7 @@
 import numpy as np
 
-from rocketpy.plots.aero_surface_plots import _TrapezoidalFinsPlots
-from rocketpy.prints.aero_surface_prints import _TrapezoidalFinsPrints
+from uvicrocketpy.plots.aero_surface_plots import _TrapezoidalFinsPlots
+from uvicrocketpy.prints.aero_surface_prints import _TrapezoidalFinsPrints
 
 from .fins import Fins
 

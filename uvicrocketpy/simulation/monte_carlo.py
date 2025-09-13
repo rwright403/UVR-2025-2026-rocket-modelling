@@ -23,11 +23,11 @@ from time import time
 import numpy as np
 import simplekml
 
-from rocketpy._encoders import RocketPyEncoder
-from rocketpy.plots.monte_carlo_plots import _MonteCarloPlots
-from rocketpy.prints.monte_carlo_prints import _MonteCarloPrints
-from rocketpy.simulation.flight import Flight
-from rocketpy.tools import (
+from uvicrocketpy._encoders import RocketPyEncoder
+from uvicrocketpy.plots.monte_carlo_plots import _MonteCarloPlots
+from uvicrocketpy.prints.monte_carlo_prints import _MonteCarloPrints
+from uvicrocketpy.simulation.flight import Flight
+from uvicrocketpy.tools import (
     generate_monte_carlo_ellipses,
     generate_monte_carlo_ellipses_coordinates,
     import_optional_dependency,

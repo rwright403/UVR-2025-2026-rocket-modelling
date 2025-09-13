@@ -1,7 +1,7 @@
-from rocketpy.mathutils import Function
-from rocketpy.plots.aero_surface_plots import _LinearGenericSurfacePlots
-from rocketpy.prints.aero_surface_prints import _LinearGenericSurfacePrints
-from rocketpy.rocket.aero_surface.generic_surface import GenericSurface
+from uvicrocketpy.mathutils import Function
+from uvicrocketpy.plots.aero_surface_plots import _LinearGenericSurfacePlots
+from uvicrocketpy.prints.aero_surface_prints import _LinearGenericSurfacePrints
+from uvicrocketpy.rocket.aero_surface.generic_surface import GenericSurface
 
 
 class LinearGenericSurface(GenericSurface):

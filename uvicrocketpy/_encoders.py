@@ -6,7 +6,7 @@ from importlib import import_module
 
 import numpy as np
 
-from rocketpy.mathutils.function import Function
+from uvicrocketpy.mathutils.function import Function
 
 
 class RocketPyEncoder(json.JSONEncoder):

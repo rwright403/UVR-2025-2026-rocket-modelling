@@ -1,4 +1,4 @@
-from rocketpy.rocket.aero_surface.generic_surface import GenericSurface
+from uvicrocketpy.rocket.aero_surface.generic_surface import GenericSurface
 
 
 class _RocketPrints:

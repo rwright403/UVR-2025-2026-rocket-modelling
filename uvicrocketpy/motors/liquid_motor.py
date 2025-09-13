@@ -2,8 +2,8 @@ from functools import cached_property
 
 import numpy as np
 
-from rocketpy.mathutils.function import funcify_method, reset_funcified_methods
-from rocketpy.tools import parallel_axis_theorem_from_com
+from uvicrocketpy.mathutils.function import funcify_method, reset_funcified_methods
+from uvicrocketpy.tools import parallel_axis_theorem_from_com
 
 from ..plots.liquid_motor_plots import _LiquidMotorPlots
 from ..prints.liquid_motor_prints import _LiquidMotorPrints

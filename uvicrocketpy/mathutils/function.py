@@ -22,7 +22,7 @@ from scipy.interpolate import (
     RBFInterpolator,
 )
 
-from rocketpy.tools import from_hex_decode, to_hex_encode
+from uvicrocketpy.tools import from_hex_decode, to_hex_encode
 
 from ..plots.plot_helpers import show_or_save_plot
 

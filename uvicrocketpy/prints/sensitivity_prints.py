@@ -1,6 +1,6 @@
 from scipy.stats import norm
 
-from rocketpy.tools import import_optional_dependency
+from uvicrocketpy.tools import import_optional_dependency
 
 
 class _SensitivityModelPrints:

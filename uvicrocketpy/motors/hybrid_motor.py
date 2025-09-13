@@ -1,6 +1,6 @@
 from functools import cached_property
 
-from rocketpy.tools import parallel_axis_theorem_from_com
+from uvicrocketpy.tools import parallel_axis_theorem_from_com
 
 from ..mathutils.function import Function, funcify_method, reset_funcified_methods
 from ..plots.hybrid_motor_plots import _HybridMotorPlots

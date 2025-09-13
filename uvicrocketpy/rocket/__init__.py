@@ -1,5 +1,5 @@
-from rocketpy.control.controller import _Controller
-from rocketpy.rocket.aero_surface import (
+from uvicrocketpy.control.controller import _Controller
+from uvicrocketpy.rocket.aero_surface import (
     AeroSurface,
     AirBrakes,
     EllipticalFins,
@@ -12,6 +12,6 @@ from rocketpy.rocket.aero_surface import (
     Tail,
     TrapezoidalFins,
 )
-from rocketpy.rocket.components import Components
-from rocketpy.rocket.parachute import Parachute
-from rocketpy.rocket.rocket import Rocket
+from uvicrocketpy.rocket.components import Components
+from uvicrocketpy.rocket.parachute import Parachute
+from uvicrocketpy.rocket.rocket import Rocket

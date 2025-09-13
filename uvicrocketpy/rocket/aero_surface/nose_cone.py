@@ -3,9 +3,9 @@ import warnings
 import numpy as np
 from scipy.optimize import fsolve
 
-from rocketpy.mathutils.function import Function
-from rocketpy.plots.aero_surface_plots import _NoseConePlots
-from rocketpy.prints.aero_surface_prints import _NoseConePrints
+from uvicrocketpy.mathutils.function import Function
+from uvicrocketpy.plots.aero_surface_plots import _NoseConePlots
+from uvicrocketpy.prints.aero_surface_prints import _NoseConePrints
 
 from .aero_surface import AeroSurface
 

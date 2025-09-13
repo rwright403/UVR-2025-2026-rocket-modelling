@@ -3,13 +3,13 @@ import warnings
 
 import numpy as np
 
-from rocketpy.control.controller import _Controller
-from rocketpy.mathutils.function import Function
-from rocketpy.mathutils.vector_matrix import Matrix, Vector
-from rocketpy.motors.empty_motor import EmptyMotor
-from rocketpy.plots.rocket_plots import _RocketPlots
-from rocketpy.prints.rocket_prints import _RocketPrints
-from rocketpy.rocket.aero_surface import (
+from uvicrocketpy.control.controller import _Controller
+from uvicrocketpy.mathutils.function import Function
+from uvicrocketpy.mathutils.vector_matrix import Matrix, Vector
+from uvicrocketpy.motors.empty_motor import EmptyMotor
+from uvicrocketpy.plots.rocket_plots import _RocketPlots
+from uvicrocketpy.prints.rocket_prints import _RocketPrints
+from uvicrocketpy.rocket.aero_surface import (
     AirBrakes,
     EllipticalFins,
     Fins,
@@ -18,11 +18,11 @@ from rocketpy.rocket.aero_surface import (
     Tail,
     TrapezoidalFins,
 )
-from rocketpy.rocket.aero_surface.fins.free_form_fins import FreeFormFins
-from rocketpy.rocket.aero_surface.generic_surface import GenericSurface
-from rocketpy.rocket.components import Components
-from rocketpy.rocket.parachute import Parachute
-from rocketpy.tools import parallel_axis_theorem_from_com
+from uvicrocketpy.rocket.aero_surface.fins.free_form_fins import FreeFormFins
+from uvicrocketpy.rocket.aero_surface.generic_surface import GenericSurface
+from uvicrocketpy.rocket.components import Components
+from uvicrocketpy.rocket.parachute import Parachute
+from uvicrocketpy.tools import parallel_axis_theorem_from_com
 
 
 # pylint: disable=too-many-instance-attributes, too-many-public-methods, too-many-instance-attributes

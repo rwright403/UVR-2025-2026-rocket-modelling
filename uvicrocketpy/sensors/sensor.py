@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from rocketpy.mathutils.vector_matrix import Matrix, Vector
+from uvicrocketpy.mathutils.vector_matrix import Matrix, Vector
 
 
 # pylint: disable=too-many-statements

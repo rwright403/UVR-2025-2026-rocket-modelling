@@ -1,8 +1,8 @@
 import numpy as np
 
-from rocketpy.plots.sensitivity_plots import _SensitivityModelPlots
-from rocketpy.prints.sensitivity_prints import _SensitivityModelPrints
-from rocketpy.tools import check_requirement_version, import_optional_dependency
+from uvicrocketpy.plots.sensitivity_plots import _SensitivityModelPlots
+from uvicrocketpy.prints.sensitivity_prints import _SensitivityModelPrints
+from uvicrocketpy.tools import check_requirement_version, import_optional_dependency
 
 
 class SensitivityModel:

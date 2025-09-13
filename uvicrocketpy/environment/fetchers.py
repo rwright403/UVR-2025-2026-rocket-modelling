@@ -10,7 +10,7 @@ from datetime import datetime, timedelta, timezone
 import netCDF4
 import requests
 
-from rocketpy.tools import exponential_backoff
+from uvicrocketpy.tools import exponential_backoff
 
 
 @exponential_backoff(max_attempts=3, base_delay=1, max_delay=60)
