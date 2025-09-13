@@ -1,11 +1,19 @@
-# UVR-2025-2026-two-stage-modelling
-Learning how to implement rocketpy to build an understanding of the design space for a two stage rocket
+# UVR-2025-2026-rocket-modelling
+Learning how to implement rocketpy to build an understanding of the design space for a competition rocket
 
+
+Research:
+| Number | Source                            | Contribution / Use Description                 | Link to Source    |
+|--------|-----------------------------------|------------------------------------------------|-------------------|
+| [1]    | Rocketpy                          | The base of our program. Modified version inside this repo. | https://docs.rocketpy.org/en/latest/# |
+
+
+
+
+<!-- old two stage research
 Getting Started:
 - Rocketpy getting started guide: https://docs.rocketpy.org/en/latest/notebooks/getting_started.html
 - Rocketpy two stage documentation:
-
-
 
 Research:
 | Number | Source                            | Contribution / Use Description                 | Link to Source    |
@@ -16,5 +24,4 @@ Research:
 | [4]    | Development of a Mechanical Stage Separation Mechanism for Two-Stage Sounding Rockets | | https://arc.aiaa.org/doi/epdf/10.2514/6.2024-85647 |
 | [5]    | Andrew Goering Portfolio Marman Clamp Design | Concept Exploration | http://andrewgoering.com/?p=186 |
 | [6]    | Research and Design of a Two-Stage Supersonic Rocket | | https://ideaexchange.uakron.edu/cgi/viewcontent.cgi?params=/context/honors_research_projects/article/2100/&path_info=Project_BOGO_Research_and_Design_of_a_Two_Stage_Supersonic_Rocket.pdf |
-
-
+-->
