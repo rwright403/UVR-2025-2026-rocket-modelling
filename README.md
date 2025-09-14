@@ -12,8 +12,12 @@ Research:
 
 <!-- old two stage research
 Getting Started:
+
 - uvicrocketpy getting started guide: https://docs.uvicrocketpy.org/en/latest/notebooks/getting_started.html
 - uvicrocketpy two stage documentation:
+
+
+
 
 Research:
 | Number | Source                            | Contribution / Use Description                 | Link to Source    |
@@ -24,4 +28,9 @@ Research:
 | [4]    | Development of a Mechanical Stage Separation Mechanism for Two-Stage Sounding Rockets | | https://arc.aiaa.org/doi/epdf/10.2514/6.2024-85647 |
 | [5]    | Andrew Goering Portfolio Marman Clamp Design | Concept Exploration | http://andrewgoering.com/?p=186 |
 | [6]    | Research and Design of a Two-Stage Supersonic Rocket | | https://ideaexchange.uakron.edu/cgi/viewcontent.cgi?params=/context/honors_research_projects/article/2100/&path_info=Project_BOGO_Research_and_Design_of_a_Two_Stage_Supersonic_Rocket.pdf |
+
+
+| [7]    | RocketPy GitHub Forums                   | Used to determine how to use the alleged two-stage feature of RocketPy | https://github.com/RocketPy-Team/RocketPy/issues/45#issuecomment-2409770877|
+| [8]    | RocketPy GitHub Forums                   | Used to start a dual-stage RocketPy template | https://github.com/fakeAEmajorRosen/RocketPy_Rosen/blob/27211e7952891bdffa71a4ecca29070d98056794/Rocketpy2stage.py|
+
 -->
