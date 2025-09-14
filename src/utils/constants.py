@@ -54,7 +54,6 @@ class NoseconeType(Enum):
 # -----------------------------
 class FinType(Enum):
     TRAPEZOIDAL = "trapezoidal"
-    ELLIPTICAL = "elliptical"
 
 
 # -----------------------------
@@ -70,7 +69,6 @@ class FinAirfoil(Enum):
 # -----------------------------
 class TailType(Enum):
     NONE = "none"
-    CYLINDRICAL = "cylindrical"
     CONICAL = "conical"
 
 csys = "nose_to_tail"

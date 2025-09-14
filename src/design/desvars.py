@@ -22,9 +22,11 @@ class DesignVariables:
     # Fuselage
     # -------------------------
     tube: TubeDiameter
+
     upper_fuselage_length: float
     upper_fuselage_material: Material
     upper_fuselage_thickness: float
+
     lower_fuselage_length: float
     lower_fuselage_material: Material
     lower_fuselage_thickness: float
@@ -32,17 +34,16 @@ class DesignVariables:
     # -------------------------
     # Fins
     # -------------------------
-    fin_type: FinType
-    fin_airfoil: FinAirfoil
-    fin_num: int
-    fin_root_chord: float
-    fin_tip_chord: float
-    fin_span: float
-    fin_thickness: float
-    fin_cant: float = 0.0
-    fin_sweep_length: float | None = None
-    fin_sweep_angle: float | None = None
-    distance_to_cg: float = 0.0  # RocketPy requires it
+    #fin_type: FinType              # currently only TRAPEZOIDAL supported
+    fin_airfoil: FinAirfoil        # currently only FLAT PLATE supported
+    fin_num: int                   # number of fins (3 or 4)
+    fin_area_total: float          # total planform area (all fins) [m^2]
+    fin_aspect_ratio: float        # AR = span^2 / area_per_fin
+    fin_taper_ratio: float = 0.6   # tip-to-root chord ratio (ct/cr)
+    fin_thickness: float           # thickness [m]
+    #fin_cant: float = 0.0          # cant angle [deg]
+    distance_to_fin: float = 0.0   # axial distance from tail to fin root LE (RocketPy convention)
+
 
     # -------------------------
     # Tail / boattail
@@ -51,6 +52,11 @@ class DesignVariables:
     boattail_bot_radius: float = 0.0
     boattail_length: float = 0.0
 
+    # -------------------------
+    # Motor
+    # -------------------------
+    motor_type: Motor
+    
     # -------------------------
     # Internals
     # -------------------------
