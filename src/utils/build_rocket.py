@@ -1,7 +1,7 @@
 import numpy as np
 from rocketpy import Rocket
 from src.utils.constants import *
-from utils.build_config import build_config
+from src.utils.build_config import build_config
 from src.models.mass import build_mass_model
 from src.models.drag import build_drag_model
 

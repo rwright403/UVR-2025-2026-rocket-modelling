@@ -2,8 +2,8 @@
 
 from dataclasses import dataclass
 import numpy as np
-from design.desvars import DesignVariables, NoseconeType, TubeDiameter, Material
-from design.missionreqs import MissionRequirements
+from src.design.desvars import DesignVariables, NoseconeType, TubeDiameter, Material
+from src.design.missionreqs import MissionRequirements
 
 # -------------------------
 # Helpers
