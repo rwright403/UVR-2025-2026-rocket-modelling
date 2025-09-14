@@ -1,5 +1,5 @@
 from rocketpy import Flight
-from src._config.test_config import desvars
+#TODO: import desvars, missionreqs
 from src.models.env import build_env
 from src.utils.build_rocket import build_rocket
 from src.models.aero_bending import aero_bending
@@ -8,7 +8,7 @@ from src.models.aero_bending import aero_bending
 env = build_env()
 
 # Build rocket from design vars
-rocket = build_rocket(desvars)
+rocket = build_rocket(desvars, missionreqs)
 
 # Run a flight
 flight = Flight(
@@ -19,12 +19,5 @@ flight = Flight(
 )
 
 #TODO:
-#aero_bending()
-
-
-
-# Inspect results
-print("Apogee:", flight.apogee)
-print("Max velocity:", flight.max_velocity)
-
-#TODO: PULL OUT MAX Q
+# Check Aero Loads Constraint
+#aero_bending("""MAX Q LOADS FROM RKTPY""")

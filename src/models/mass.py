@@ -3,11 +3,14 @@ from dataclasses import dataclass
 from src.utils.constants import *
 
 
+
 @dataclass
 class mass:
     mass: float
     cg: np.ndarray 
     inertia: np.ndarray # 3x3 Inertia Tensor
+
+
 
 def parallel_axis(mass_objs: list):
     """
@@ -33,9 +36,6 @@ def parallel_axis(mass_objs: list):
     return mass(mass_total, cg_total, I_total)
 
 
-
-
-import numpy as np
 
 def nosecone_mass(radius, nose_type, nose_power, nose_mat, nose_thick, nose_len, total_len):
     """
@@ -100,7 +100,6 @@ def nosecone_mass(radius, nose_type, nose_power, nose_mat, nose_thick, nose_len,
     I = np.zeros((3, 3))  # point mass approx
 
     return mass(m, cg, I)
-
 
 
 
@@ -198,13 +197,110 @@ def lower_fuselage_mass(mass_mat, radius: float, thickness: float,
 def fin_mass():
     #sol volume of one fin
     #multiply by material density and number of fins
-    return mass
-
-def boattail_mass():
-    #sol volume
-    #multiply by material density
 
     return mass
+
+
+
+def boattail_mass(radius_top: float, radius_bot: float, length: float,
+                  thickness: float, mat, x0: float = 0.0):
+    """
+    Mass model for a conical boattail (frustum shell).
+    
+    Parameters
+    ----------
+    radius_top : float
+        Outer radius at fuselage junction [m].
+    radius_bot : float
+        Outer radius at aft end [m].
+    length : float
+        Boattail length [m].
+    thickness : float
+        Wall thickness [m].
+    mat : Material
+        Material enum with .rho (density).
+    x0 : float, optional
+        Starting position of boattail (tail=0). Default=0.
+    
+    Returns
+    -------
+    mass
+        Mass dataclass object for boattail.
+    """
+
+    if length <= 0:
+        return mass(0.0, np.array([x0, 0, 0]), np.zeros((3, 3)))
+
+    # Outer & inner radii
+    Rt, Rb = radius_top, radius_bot
+    Rti, Rbi = Rt - thickness, Rb - thickness
+
+    # Volume of hollow frustum
+    V = (np.pi * length / 3.0) * (
+        (Rt**2 + Rt*Rb + Rb**2) - (Rti**2 + Rti*Rbi + Rbi**2)
+    )
+    m = V * mat.rho
+
+    # Centroid from boattail base (tail=0 at x0)
+    num = (Rt**2 + 2*Rt*Rb + 3*Rb**2) - (Rti**2 + 2*Rti*Rbi + 3*Rbi**2)
+    den = (Rt**2 + Rt*Rb + Rb**2) - (Rti**2 + Rti*Rbi + Rbi**2)
+    
+    x_cg = x0 + length * (num / (4 * den))
+    cg = np.array([x_cg, 0.0, 0.0])
+    I = np.zeros((3, 3))  # point mass approx
+
+    return mass(m, cg, I)
+
+
+
+def motor_wet_mass(motor, t: float = 0.0):
+    """
+    Compute wet motor mass, inertia, and CG from a RocketPy SolidMotor object.
+
+    Parameters
+    ----------
+    motor : SolidMotor
+        RocketPy motor object (fully defined with geometry + mass).
+    t : float, optional
+        Time [s] at which to evaluate properties. Default = 0 (pre-ignition).
+
+    Returns
+    -------
+    dict
+        Dictionary with:
+        - "mass" : float, total motor mass [kg]
+        - "cg"   : np.ndarray, center of mass [m] in motor CSYS
+        - "inertia" : np.ndarray, inertia tensor [kg·m²] about CG
+    """
+
+    # Total mass = dry + propellant at time t
+    m_total = motor.total_mass(t)
+
+    # CG location at time t
+    x_cg = motor.center_of_mass(t)
+    cg = np.array([x_cg, 0.0, 0.0])
+
+    # Inertia components at time t
+    I11 = motor.I_11(t)
+    I22 = motor.I_22(t)
+    I33 = motor.I_33(t)
+
+    # Cross-terms (usually 0 by symmetry)
+    I12 = motor.I_12(t)
+    I13 = motor.I_13(t)
+    I23 = motor.I_23(t)
+
+    inertia = np.array([
+        [I11, I12, I13],
+        [I12, I22, I23],
+        [I13, I23, I33]
+    ])
+
+    return {
+        "mass": m_total,
+        "cg": cg,
+        "inertia": inertia
+    }
 
 
 
@@ -339,43 +435,91 @@ def payload_mass(mass_val: float, payload_vol: float, radius: float,
     # CG position (tail=0 coords)
     x_cg = total_len - nose_len - L_recovery - 0.5 * L_payload
     cg = np.array([x_cg, 0.0, 0.0])
-
     I = np.zeros((3, 3))  # point mass
 
     return mass(mass_val, cg, I)
 
 
 
+class MassModel:
+    def __init__(self, config):
+        """
+        Build point mass model from config dataclass (geometry + materials).
+        """
+        self.config = config
+        self.parts = self._build_parts(config)  # dict of part -> mass dataclass
+        self.motor = None  # filled later if needed
+
+    def _build_parts(self, cfg):
+        """Return dict of all point masses."""
+        parts = {}
+
+        parts["nosecone"] = nosecone_mass(
+            cfg.tube.radius, cfg.nosecone_type, cfg.nosecone_power,
+            cfg.nosecone_material, cfg.nosecone_thickness,
+            cfg.nosecone_length, cfg.total_length
+        )
+
+        parts["upper_fuselage"] = upper_fuselage_mass(
+            cfg.upper_fuselage_material, cfg.tube.radius,
+            cfg.upper_fuselage_thickness, cfg.upper_fuselage_length,
+            cfg.lower_fuselage_length, cfg.boattail_length
+        )
+
+        parts["lower_fuselage"] = lower_fuselage_mass(
+            cfg.lower_fuselage_material, cfg.tube.radius,
+            cfg.lower_fuselage_thickness, cfg.lower_fuselage_length,
+            cfg.boattail_length
+        )
+
+        parts["fins"] = fin_mass(
+
+            
+        )  # TODO: expand like nosecone with geom + mat
+
+        parts["boattail"] = boattail_mass(
+            cfg.tube.radius, cfg.boattail_bot_radius,
+            cfg.boattail_length, cfg.boattail_thickness,
+            cfg.boattail_material, x0=0.0
+        )
+
+        parts["recovery"] = recovery_mass(
+            cfg.recovery_mass, cfg.recovery_volume,
+            cfg.tube.radius, cfg.total_length, cfg.nosecone_length
+        )
+
+        parts["prop_struct"] = propulsion_struct_mass(
+            cfg.propulsion_struct_mass, cfg.pro98_len
+        )
+
+        parts["coupler"] = coupler_mass(
+            cfg.coupler_mass, cfg.lower_fuselage_length, cfg.boattail_length
+        )
+
+        parts["payload"] = payload_mass(
+            cfg.payload_mass, cfg.payload_volume,
+            cfg.tube.radius, cfg.total_length,
+            cfg.nosecone_length, cfg.recovery_volume
+        )
+
+        parts["motor"] = motor_wet_mass(motor=cfg.motor_type)
+
+        self.parts = parts
+
+    def wet_mass(self) -> mass:
+        """Equivalent point mass for wet mass rocket"""
+        return parallel_axis(list(self.parts.values()))
 
 
-
-def build_mass_model(desvars):
-    """
-    Take our design variables and solve rocketpy mass params
-    NOTE: rocketpy requests mass, inertia cm to account for
-          entire rocket except rocket motor mass (both wet and dry)
-    """
-    rkt_pt_masses = [
-        nosecone_mass(desvars.nose_type, desvars.nose_mat, desvars.nose_thick, desvars.nose_len),
-        upper_fuselage_mass(),
-        lower_fuselage_mass(),
-        fin_mass(),
-        boattail_mass(),
-        recovery_mass(),
-        propulsion_struct_mass(),
-        coupler_mass(),
-        payload_mass(),
-    ]
-
-    # Parallel axis to get overall rocket mass obj
-
-    rocket_mass = parallel_axis(rkt_pt_masses)
-
-    #TODO: NEED TO ADD MOTOR TO CHECK STABLE, THEN REMOVE IT FOR ROCKETPY
-
-    # Format to Rocketpy Convention #NOTE: split this up? we want pt masses w inertia for aero bending!
-    rp_mass = rocket_mass.mass
-    rp_inertia = tuple(rocket_mass.inertia.diagonal())  # RocketPy expects tuple
-    rp_cm = rocket_mass.cg.tolist()
-
-    return rp_mass, rp_inertia, rp_cm,
+    def rocketpy_tuple(self):
+        """
+        Export dry rocket to RocketPy convention:
+        (mass, (Ixx, Iyy, Izz), cg list)
+        """
+        rktpy_parts = {k: v for k, v in self.parts.items() if k != "motor"}
+        m_obj = parallel_axis(list(rktpy_parts.values()))
+        return (
+            m_obj.mass,
+            tuple(m_obj.inertia.diagonal()),
+            m_obj.cg.tolist()
+        )
