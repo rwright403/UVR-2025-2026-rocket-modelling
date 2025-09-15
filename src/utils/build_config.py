@@ -107,6 +107,9 @@ def build_config(desvars: DesignVariables, mission: MissionRequirements) -> Conf
     then derive geometry automatically.
     """
     config = Config(
+
+        rkt_radius = desvars.radius,
+
         # Nosecone
         nosecone_type=desvars.nosecone_type,
         nosecone_length=desvars.nosecone_length,
@@ -126,6 +129,7 @@ def build_config(desvars: DesignVariables, mission: MissionRequirements) -> Conf
         # Fins
         fin_num=desvars.fin_num,
         fin_area_total=desvars.fin_area_total,
+        fin_material=desvars.fin_material,
         fin_aspect_ratio=desvars.fin_aspect_ratio,
         fin_taper_ratio=desvars.fin_taper_ratio,
         fin_thickness=desvars.fin_thickness,

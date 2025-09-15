@@ -2,15 +2,18 @@ import numpy as np
 from rocketpy import Rocket
 from src.utils.constants import *
 from src.utils.build_config import build_config
-from src.models.mass import build_mass_model
+from src.models.mass import MassModel
 from src.models.drag import build_drag_model
 
 def build_rocket(desvars, missionreqs):
 
     config = build_config(desvars, missionreqs)
     
-    rp_mass, rp_inertia, rp_cm = build_mass_model(config) # Mass model creates a stable config
+    mm = MassModel(config)
+    rp_mass, rp_inertia, rp_cm = mm.rocketpy_tuple()
+
     cd_power_on, cd_power_off = build_drag_model(config)
+
     #TODO: fin lift model!
 
     # From mass model assembly everything according to rocketpy
@@ -46,16 +49,8 @@ def build_rocket(desvars, missionreqs):
             airfoil=None if config.fin_airfoil == FinAirfoil.FLATPLATE
                    else (lambda alpha: 2*np.pi*alpha, "radians")
         )
-    elif config.fin_type == FinType.ELLIPTICAL:
-        rocket.add_elliptical_fins(
-            number_of_fins=config.fin_num,
-            span=config.fin_span,
-            root_chord=config.fin_root_chord,
-            distance_to_cg=config.distance_to_cg,
-            cant_angle=config.fin_cant,
-            airfoil=None if config.fin_airfoil == FinAirfoil.FLATPLATE
-                   else (lambda alpha: 2*np.pi*alpha, "radians")
-        )
+    else:
+        raise NotImplementedError
 
     # Tail
     if config.tail_type != TailType.NONE:

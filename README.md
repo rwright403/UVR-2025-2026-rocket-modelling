@@ -5,7 +5,8 @@ Learning how to implement uvicrocketpy to build an understanding of the design s
 Research:
 | Number | Source                            | Contribution / Use Description                 | Link to Source    |
 |--------|-----------------------------------|------------------------------------------------|-------------------|
-| [1]    | uvicrocketpy                          | The base of our program. Modified version inside this repo. | https://docs.uvicrocketpy.org/en/latest/# |
+| [1]    | rocketpy                          | The base of our program. Modified version inside this repo. | https://docs.uvicrocketpy.org/en/latest/# |
+| [2]    | thrustcurve.org                   | Used to get thrust curves for CTI motors       |https://www.thrustcurve.org/ |
 
 
 

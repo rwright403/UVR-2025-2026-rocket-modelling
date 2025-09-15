@@ -10,6 +10,14 @@ class mass:
     cg: np.ndarray 
     inertia: np.ndarray # 3x3 Inertia Tensor
 
+def rotate_inertia(I_local, theta):
+    """Rotate inertia tensor about x-axis by angle theta (rad)."""
+    R = np.array([
+        [1, 0, 0],
+        [0, np.cos(theta), -np.sin(theta)],
+        [0, np.sin(theta),  np.cos(theta)]
+    ])
+    return R @ I_local @ R.T
 
 
 def parallel_axis(mass_objs: list):
@@ -194,18 +202,59 @@ def lower_fuselage_mass(mass_mat, radius: float, thickness: float,
 
 
 
-def fin_mass():
-    #sol volume of one fin
-    #multiply by material density and number of fins
+def fin_mass(mass_mat, span, root_chord, tip_chord, thickness, fin_num, fin_position, rocket_radius):
+    """
+    Mass model for the fins
+    
+    Parameters
+    ----------
+    mass_mat : Material
+        Material enum with .rho (density).
+    span : float
+        Fin span
+    root_chord : float
+    tip_chord : float
+    thickness : float
+    fin_num : int
+    fin_position : float
+    rocket_radius : float
+    
+    Returns
+    -------
+    mass
+        Mass dataclass object for boattail.
+    """
+    A = 0.5 * (root_chord + tip_chord) * span
+    V = A * thickness
+    m = V * mass_mat.rho
+    chord_avg = 0.5 * (root_chord + tip_chord)
 
-    return mass
+    # Local inertia (thin plate approx)
+    Ixx = (1/12) * m * (span**2 + thickness**2)
+    Iyy = (1/12) * m * (chord_avg**2 + thickness**2)
+    Izz = (1/12) * m * (span**2 + chord_avg**2)
+    I_local = np.diag([Ixx, Iyy, Izz])
+
+    fins = []
+    for i in range(fin_num):
+        theta = 2*np.pi * i / fin_num
+        # Position in rocket CSYS
+        x = fin_position + 0.5*root_chord
+        y = (rocket_radius + thickness/2) * np.cos(theta)
+        z = (rocket_radius + thickness/2) * np.sin(theta)
+        cg = np.array([x, y, z])
+        I_global = rotate_inertia(I_local, theta) #align fin cg to global cg
+        fins.append(mass(m, cg, I_global))
+
+    return parallel_axis(fins)
+
 
 
 
 def boattail_mass(radius_top: float, radius_bot: float, length: float,
                   thickness: float, mat, x0: float = 0.0):
     """
-    Mass model for a conical boattail (frustum shell).
+    Mass model for a conical boattail
     
     Parameters
     ----------
@@ -473,9 +522,10 @@ class MassModel:
         )
 
         parts["fins"] = fin_mass(
-
-            
-        )  # TODO: expand like nosecone with geom + mat
+            cfg.fin_material, cfg.fin_span, cfg.root_chord, 
+            cfg.tip_chord, cfg.fin_thickness, cfg.fin_num, 
+            cfg.fin_position, cfg.rkt_radius            
+        )
 
         parts["boattail"] = boattail_mass(
             cfg.tube.radius, cfg.boattail_bot_radius,

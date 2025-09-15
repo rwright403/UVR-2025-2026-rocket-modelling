@@ -2,7 +2,6 @@ import numpy as np
 from dataclasses import dataclass
 from src.utils.constants import *
 from src.motors.motors import *
-from src.models.barrowman_cp import *
 """
 # NOTE: csys is nose to tail?
 """

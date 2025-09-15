@@ -6,7 +6,7 @@ from rocketpy import SolidMotor
 
 class Motor(Enum):
     M1790 = SolidMotor(
-        thrust_source="./motors/8088M1790-P.eng",
+        thrust_source="./src/motors/Cesaroni_8088M1790-P",
         dry_mass=None,
         dry_inertia=None,
         nozzle_radius=None,
@@ -25,7 +25,7 @@ class Motor(Enum):
     )
 
     M1450 = SolidMotor(
-        thrust_source="./motors/9955M1450-P.eng",
+        thrust_source="./src/motors/Cesaroni_9955M1450-P.eng",
         dry_mass=None,
         dry_inertia=None,
         nozzle_radius=None,
@@ -44,7 +44,7 @@ class Motor(Enum):
     )
 
     M3400 = SolidMotor(
-        thrust_source="./motors/9994M3400-P.eng",
+        thrust_source="./src/motors/Cesaroni_9994M3400-P.eng",
         dry_mass=None,
         dry_inertia=None,
         nozzle_radius=None,
@@ -63,7 +63,7 @@ class Motor(Enum):
     )
 
     M795 = SolidMotor(
-        thrust_source="./motors/10133M795-P.eng",
+        thrust_source="./src/motors/Cesaroni_10133M795-P.eng",
         dry_mass=None,
         dry_inertia=None,
         nozzle_radius=None,
@@ -82,7 +82,7 @@ class Motor(Enum):
     )
 
     N3400 = SolidMotor(
-        thrust_source="./motors/14263N3400-P.eng",
+        thrust_source="./src/motors/Cesaroni_14263N3400-P.eng",
         dry_mass=None,
         dry_inertia=None,
         nozzle_radius=None,
@@ -101,7 +101,7 @@ class Motor(Enum):
     )
 
     N2540 = SolidMotor(
-        thrust_source="./motors/17907N2540-P.eng",
+        thrust_source="./src/motors/Cesaroni_17907N2540-P.eng",
         dry_mass=None,
         dry_inertia=None,
         nozzle_radius=None,
@@ -120,7 +120,7 @@ class Motor(Enum):
     )
 
     O3400 = SolidMotor(
-        thrust_source="./motors/21062O3400-P.eng",
+        thrust_source="./src/motors/Cesaroni_21062O3400-P.eng",
         dry_mass=None,
         dry_inertia=None,
         nozzle_radius=None,
