@@ -2,8 +2,8 @@
 
 from dataclasses import dataclass
 import numpy as np
-from src.design.desvars import DesignVariables, NoseconeType, TubeDiameter, Material
-from src.design.missionreqs import MissionRequirements
+from src.design.config import DesignVariables, MissionRequirements
+from src.utils.constants import NoseconeType, TubeDiameter, Material
 
 # -------------------------
 # Helpers
@@ -28,12 +28,6 @@ def derive_trapezoid_geometry(A_total: float, fin_num: int,
 
 @dataclass
 class Config:
-    # Nosecone
-    nosecone_type: NoseconeType
-    nosecone_length: float
-    nosecone_material: Material
-    nosecone_thickness: float
-    nosecone_power: float | None = None
 
     # Fuselage
     tube: TubeDiameter
@@ -50,29 +44,36 @@ class Config:
     fin_aspect_ratio: float
     fin_taper_ratio: float
     fin_thickness: float
-    fin_cant: float = 0.0
-    distance_to_fin: float = 0.0
+    fin_cant: float
+    distance_to_fin: float
 
     # Derived fin geometry
-    fin_span: float = 0.0
-    fin_root_chord: float = 0.0
-    fin_tip_chord: float = 0.0
-    fin_sweep_length: float = 0.0
-    fin_sweep_angle: float = 0.0
+    fin_span: float
+    fin_root_chord: float
+    fin_tip_chord: float
+    fin_sweep_length: float
+    fin_sweep_angle: float
 
     # Tail
-    boattail_bot_radius: float = 0.0
-    boattail_length: float = 0.0
-    boattail_thickness: float = 0.0
-    boattail_material: Material | None = None
+    boattail_bot_radius: float
+    boattail_length: float
+    boattail_thickness: float
+    boattail_material: Material
 
     # Internals / mission
-    payload_mass: float = 0.0
-    payload_volume: float = 0.0
-    recovery_mass: float = 0.0
-    recovery_volume: float = 0.0
-    propulsion_struct_mass: float = 0.0
-    coupler_mass: float = 0.0
+    payload_mass: float
+    payload_volume: float
+    recovery_mass: float
+    recovery_volume: float
+    propulsion_struct_mass: float
+    coupler_mass: float
+
+    # Nosecone
+    nosecone_type: NoseconeType
+    nosecone_length: float
+    nosecone_material: Material
+    nosecone_thickness: float
+    nosecone_power: float | None = None
 
     # -------------------------
     # Methods

@@ -14,8 +14,6 @@ def build_rocket(desvars, missionreqs):
 
     cd_power_on, cd_power_off = build_drag_model(config)
 
-    #TODO: fin lift model!
-
     # From mass model assembly everything according to rocketpy
     rocket = Rocket(
         radius=config.tube.radius,
@@ -34,7 +32,6 @@ def build_rocket(desvars, missionreqs):
         power=config.nosecone_power
     )
 
-#TODO: ADD LIFT MODEL!!!
     # Fins
     if config.fin_type == FinType.TRAPEZOIDAL:
         rocket.add_trapezoidal_fins(
@@ -46,8 +43,7 @@ def build_rocket(desvars, missionreqs):
             cant_angle=config.fin_cant,
             sweep_length=config.fin_sweep_length,
             sweep_angle=config.fin_sweep_angle,
-            airfoil=None if config.fin_airfoil == FinAirfoil.FLATPLATE
-                   else (lambda alpha: 2*np.pi*alpha, "radians")
+            airfoil=None
         )
     else:
         raise NotImplementedError
@@ -65,5 +61,7 @@ def build_rocket(desvars, missionreqs):
         lower_button_position=-0.0,
         angular_position=45,
     )
+
+    rocket.add_motor(config.motor, config.motor_pos)
 
     return rocket
