@@ -267,7 +267,7 @@ def boattail_mass(radius_top: float, radius_bot: float, length: float,
     thickness : float
         Wall thickness [m].
     mat : Material
-        Material enum with .rho (density).
+        Material enum with .density.
     x0 : float, optional
         Starting position of boattail (tail=0). Default=0.
     
@@ -288,7 +288,7 @@ def boattail_mass(radius_top: float, radius_bot: float, length: float,
     V = (np.pi * length / 3.0) * (
         (Rt**2 + Rt*Rb + Rb**2) - (Rti**2 + Rti*Rbi + Rbi**2)
     )
-    m = V * mat.rho
+    m = V * mat.density
 
     # Centroid from boattail base (tail=0 at x0)
     num = (Rt**2 + 2*Rt*Rb + 3*Rb**2) - (Rti**2 + 2*Rti*Rbi + 3*Rbi**2)
@@ -499,62 +499,81 @@ class MassModel:
         self.parts = self._build_parts(config)  # dict of part -> mass dataclass
         self.motor = None  # filled later if needed
 
+
+
     def _build_parts(self, cfg):
         """Return dict of all point masses."""
         parts = {}
 
-        parts["nosecone"] = nosecone_mass(
-            cfg.tube.radius, cfg.nosecone_type, cfg.nosecone_power,
-            cfg.nosecone_material, cfg.nosecone_thickness,
-            cfg.nosecone_length, cfg.total_length
+        # radius (m)
+        rkt_radius = cfg.radius
+        # total rocket length (approx)
+        total_length = (cfg.nosecone_length + cfg.upper_fuselage_length
+            + cfg.lower_fuselage_length + cfg.boattail_length
         )
 
+        # --- Nosecone
+        parts["nosecone"] = nosecone_mass(
+            rkt_radius, cfg.nosecone_type, cfg.nosecone_power,
+            cfg.nosecone_material, cfg.nosecone_thickness,
+            cfg.nosecone_length, total_length
+        )
+
+        # --- Fuselage
         parts["upper_fuselage"] = upper_fuselage_mass(
-            cfg.upper_fuselage_material, cfg.tube.radius,
+            cfg.upper_fuselage_material, rkt_radius,
             cfg.upper_fuselage_thickness, cfg.upper_fuselage_length,
             cfg.lower_fuselage_length, cfg.boattail_length
         )
 
         parts["lower_fuselage"] = lower_fuselage_mass(
-            cfg.lower_fuselage_material, cfg.tube.radius,
+            cfg.lower_fuselage_material, rkt_radius,
             cfg.lower_fuselage_thickness, cfg.lower_fuselage_length,
             cfg.boattail_length
         )
 
+
         parts["fins"] = fin_mass(
-            cfg.fin_material, cfg.fin_span, cfg.root_chord, 
-            cfg.tip_chord, cfg.fin_thickness, cfg.fin_num, 
-            cfg.fin_position, cfg.rkt_radius            
+            cfg.fin_material, cfg.fin_span, cfg.fin_root_chord,
+            cfg.fin_tip_chord, cfg.fin_thickness, cfg.fin_num,
+            cfg.distance_to_fin, rkt_radius
         )
 
+        # --- Boattail
         parts["boattail"] = boattail_mass(
-            cfg.tube.radius, cfg.boattail_bot_radius,
+            rkt_radius, cfg.boattail_bot_radius,
             cfg.boattail_length, cfg.boattail_thickness,
             cfg.boattail_material, x0=0.0
         )
 
+        # --- Recovery
         parts["recovery"] = recovery_mass(
             cfg.recovery_mass, cfg.recovery_volume,
-            cfg.tube.radius, cfg.total_length, cfg.nosecone_length
+            rkt_radius, total_length, cfg.nosecone_length
         )
 
+        # --- Propulsion struct (TODO: define proper length parameter)
         parts["prop_struct"] = propulsion_struct_mass(
-            cfg.propulsion_struct_mass, cfg.pro98_len
+            cfg.propulsion_struct_mass, cfg.lower_fuselage_length
         )
 
+        # --- Coupler
         parts["coupler"] = coupler_mass(
             cfg.coupler_mass, cfg.lower_fuselage_length, cfg.boattail_length
         )
 
+        # --- Payload
         parts["payload"] = payload_mass(
             cfg.payload_mass, cfg.payload_volume,
-            cfg.tube.radius, cfg.total_length,
+            rkt_radius, total_length,
             cfg.nosecone_length, cfg.recovery_volume
         )
 
-        parts["motor"] = motor_wet_mass(motor=cfg.motor_type)
+        # --- Motor
+        #parts["motor"] = motor_wet_mass(motor=cfg.motor_type)
 
-        self.parts = parts
+
+        return parts
 
     def wet_mass(self) -> mass:
         """Equivalent point mass for wet mass rocket"""
@@ -570,6 +589,6 @@ class MassModel:
         m_obj = parallel_axis(list(rktpy_parts.values()))
         return (
             m_obj.mass,
-            tuple(m_obj.inertia.diagonal()),
-            m_obj.cg.tolist()
+            tuple(float(x) for x in m_obj.inertia.diagonal()),  # force scalars,
+            float(m_obj.cg[0])  # single float, not list
         )

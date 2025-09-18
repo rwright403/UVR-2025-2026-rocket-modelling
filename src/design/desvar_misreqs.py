@@ -11,6 +11,8 @@ from src.motors.motors import *
 @dataclass
 class MissionRequirements:
 
+    rail_length: float
+
     # -------------------------
     # Internals
     # -------------------------
@@ -52,9 +54,9 @@ class DesignVariables:
     fin_aspect_ratio: float        # AR = span^2 / area_per_fin
     fin_taper_ratio: float          # default 0.6 ?# tip-to-root chord ratio (ct/cr)
     fin_thickness: float           # thickness [m]
-    #fin_cant: float = 0.0          # cant angle [deg]
-    distance_to_fin: float   # axial distance from tail to fin root LE (RocketPy convention)
-
+    fin_cant: float                  # cant angle [deg]
+    distance_to_fin: float          # axial distance from tail to fin root LE (RocketPy convention)
+    fin_material: Material
 
     # -------------------------
     # Tail / boattail
@@ -62,22 +64,14 @@ class DesignVariables:
     tail_type: TailType
     boattail_bot_radius: float
     boattail_length: float
+    boattail_thickness: float
+    boattail_material: float
+    boattail_position: float
 
     # -------------------------
     # Motor
     # -------------------------
     motor_type: Motor
-    
-    # -------------------------
-    # Internals
-    # -------------------------
-    payload_mass: float
-    payload_volume: float
-
-    recovery_mass: float
-    recovery_volume: float
-
-    propulsion_struct_mass: float #
 
     # -------------------------
     # Nosecone

@@ -25,7 +25,7 @@ def main():
     user_input = input("Enter number: ")
 
     if user_input == "1":
-        results = flightsim(program_input.desvars, program_input.missionreqs)
+        results = flightsim(program_input.desvars, program_input.mission_reqs)
         print("Single run finished. Results:")
         print(results)
 

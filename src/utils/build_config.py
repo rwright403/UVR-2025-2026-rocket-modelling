@@ -1,9 +1,8 @@
-# src/design/config.py
-
 from dataclasses import dataclass
 import numpy as np
-from src.design.config import DesignVariables, MissionRequirements
-from src.utils.constants import NoseconeType, TubeDiameter, Material
+from src.design.desvar_misreqs import DesignVariables, MissionRequirements
+from src.utils.constants import NoseconeType, Material, TubeDiameter, FinAirfoil, TailType
+from src.motors.motors import Motor
 
 # -------------------------
 # Helpers
@@ -29,6 +28,8 @@ def derive_trapezoid_geometry(A_total: float, fin_num: int,
 @dataclass
 class Config:
 
+    radius: float
+
     # Fuselage
     tube: TubeDiameter
     upper_fuselage_length: float
@@ -48,17 +49,22 @@ class Config:
     distance_to_fin: float
 
     # Derived fin geometry
-    fin_span: float
-    fin_root_chord: float
-    fin_tip_chord: float
-    fin_sweep_length: float
-    fin_sweep_angle: float
+    fin_airfoil : FinAirfoil
+    fin_num: int
+    fin_area_total: float
+    fin_material: Material
+    fin_aspect_ratio: float
+    fin_taper_ratio: float
+    fin_thickness: float
+    fin_cant: float
+    distance_to_fin: float
 
     # Tail
     boattail_bot_radius: float
     boattail_length: float
     boattail_thickness: float
     boattail_material: Material
+    boattail_position: float
 
     # Internals / mission
     payload_mass: float
@@ -67,6 +73,9 @@ class Config:
     recovery_volume: float
     propulsion_struct_mass: float
     coupler_mass: float
+
+    # Motor
+    motor_type: Motor
 
     # Nosecone
     nosecone_type: NoseconeType
@@ -78,6 +87,13 @@ class Config:
     # -------------------------
     # Methods
     # -------------------------
+    
+    fin_span: float = 0.0
+    fin_root_chord: float = 0.0
+    fin_tip_chord: float = 0.0
+    fin_sweep_length: float = 0.0
+    fin_sweep_angle: float = 0.0
+    nosecone_pos: float = 0.0
 
     def derive(self):
         """Compute derived fin geometry and update fields."""
@@ -91,7 +107,9 @@ class Config:
         self.fin_root_chord = cr
         self.fin_tip_chord = ct
         self.fin_sweep_length = cr - ct
-        self.fin_sweep_angle = np.degrees(np.arctan2(self.fin_sweep_length, span))
+        # NOTE: ValueError: Cannot use sweep_length and sweep_angle together self.fin_sweep_angle = np.degrees(np.arctan2(self.fin_sweep_length, span))
+
+        self.nosecone_pos = self.lower_fuselage_length + self.upper_fuselage_length + self.boattail_length
 
     def as_dict(self):
         """Dump everything into a dict (for logging/optimizer)."""
@@ -109,7 +127,7 @@ def build_config(desvars: DesignVariables, mission: MissionRequirements) -> Conf
     """
     config = Config(
 
-        rkt_radius = desvars.radius,
+        radius = desvars.tube.value,
 
         # Nosecone
         nosecone_type=desvars.nosecone_type,
@@ -128,6 +146,7 @@ def build_config(desvars: DesignVariables, mission: MissionRequirements) -> Conf
         lower_fuselage_thickness=desvars.lower_fuselage_thickness,
 
         # Fins
+        fin_airfoil=desvars.fin_airfoil,
         fin_num=desvars.fin_num,
         fin_area_total=desvars.fin_area_total,
         fin_material=desvars.fin_material,
@@ -142,6 +161,9 @@ def build_config(desvars: DesignVariables, mission: MissionRequirements) -> Conf
         boattail_length=desvars.boattail_length,
         boattail_thickness=desvars.boattail_thickness,
         boattail_material=desvars.boattail_material,
+        boattail_position=desvars.boattail_position,
+
+        motor_type=desvars.motor_type,
 
         # Mission requirements
         payload_mass=mission.payload_mass,
