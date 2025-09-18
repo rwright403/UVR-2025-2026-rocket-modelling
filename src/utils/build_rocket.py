@@ -1,18 +1,21 @@
 import numpy as np
 from rocketpy import Rocket
 from src.utils.constants import *
-from src.utils.build_config import build_config
 from src.models.mass import MassModel
-from src.models.drag import build_drag_model
+#from src.models.drag import build_drag_model
 
-def build_rocket(desvars, missionreqs):
-
-    config = build_config(desvars, missionreqs)
+def build_rocket(config):
     
     mm = MassModel(config)
     rp_mass, rp_inertia, rp_cm = mm.rocketpy_tuple()
 
-    cd_power_on, cd_power_off = build_drag_model(config)
+    print("mm out: ", rp_mass, rp_inertia, rp_cm)
+
+
+    #cd_power_on, cd_power_off = build_drag_model(config)
+    cd_power_on="src/models/powerOnDragCurve.csv"
+    cd_power_off="src/models/powerOffDragCurve.csv"
+
 
     # From mass model assembly everything according to rocketpy
     rocket = Rocket(
@@ -26,35 +29,35 @@ def build_rocket(desvars, missionreqs):
     )
 
     # Nosecone
-    rocket.add_nosecone(
+    rocket.add_nose(
         length=config.nosecone_length,
+        position=config.nosecone_pos,
         kind=config.nosecone_type.value,
         power=config.nosecone_power
     )
 
     # Fins
-    if config.fin_type == FinType.TRAPEZOIDAL:
-        rocket.add_trapezoidal_fins(
-            number_of_fins=config.fin_num,
-            span=config.fin_span,
-            root_chord=config.fin_root_chord,
-            tip_chord=config.fin_tip_chord,
-            distance_to_cg=config.distance_to_cg,
-            cant_angle=config.fin_cant,
-            sweep_length=config.fin_sweep_length,
-            sweep_angle=config.fin_sweep_angle,
-            airfoil=None
-        )
-    else:
-        raise NotImplementedError
+
+    rocket.add_trapezoidal_fins(
+        n=config.fin_num,
+        span=config.fin_span,
+        root_chord=config.fin_root_chord,
+        tip_chord=config.fin_tip_chord,
+        position=config.distance_to_fin,
+        cant_angle=config.fin_cant,
+        sweep_length=config.fin_sweep_length,
+        airfoil=None
+    )
+
 
     # Tail
-    if config.tail_type != TailType.NONE:
-        rocket.add_tail(
-            top_radius=config.tube.radius,
-            bottom_radius=config.boattail_bot_radius,
-            length=config.boattail_length
-        )
+    # TODO: BOATTAIL VS NO BOATTAIL
+    rocket.add_tail(
+        top_radius=config.tube.radius,
+        bottom_radius=config.boattail_bot_radius,
+        length=config.boattail_length,
+        position=config.boattail_position
+    )
 
     rocket.set_rail_buttons(
         upper_button_position=pro98_len,
@@ -62,6 +65,7 @@ def build_rocket(desvars, missionreqs):
         angular_position=45,
     )
 
-    rocket.add_motor(config.motor, config.motor_pos)
-
-    return rocket
+    #rocket.add_motor(config.motor_type, config.motor_pos)
+    rocket.add_motor(config.motor_type.value, 0.0)
+                                        #NOTE: is this just 0 ???
+    return rocket, mm
