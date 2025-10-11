@@ -1,5 +1,5 @@
 from enum import Enum
-from rocketpy import SolidMotor
+from uvicrocketpy import SolidMotor
 
 ### NOTE: Assumptions:
 # grain_initial_inner_radius=throat_radius
@@ -148,7 +148,7 @@ class Motor(Enum):
 
     """
     O3400:
-    https://pro38.com/products/p98-6gxl/21062o3400-p/
+    https://pro38.com44/products/p98-6gxl/21062o3400-p/
     """
     O3400 = SolidMotor(
         thrust_source="./src/motors/Cesaroni_21062O3400-P.eng",

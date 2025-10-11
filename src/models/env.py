@@ -1,4 +1,4 @@
-from rocketpy import Environment
+from uvicrocketpy import Environment
 
 def build_env():
     env = Environment(

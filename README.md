@@ -14,9 +14,6 @@ Research:
 <!-- old two stage research
 Getting Started:
 
-- uvicrocketpy getting started guide: https://docs.uvicrocketpy.org/en/latest/notebooks/getting_started.html
-- uvicrocketpy two stage documentation:
-
 
 
 
