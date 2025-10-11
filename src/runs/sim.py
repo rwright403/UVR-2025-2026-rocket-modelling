@@ -1,4 +1,4 @@
-from rocketpy import Flight
+from uvicrocketpy import Flight
 #TODO: import desvars, missionreqs
 from src.models.env import build_env
 from src.utils.build_config import build_config

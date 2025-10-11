@@ -1,5 +1,5 @@
 import numpy as np
-from rocketpy import Rocket
+from uvicrocketpy import Rocket
 from src.utils.constants import *
 from src.models.mass import MassModel
 #from src.models.drag import build_drag_model
