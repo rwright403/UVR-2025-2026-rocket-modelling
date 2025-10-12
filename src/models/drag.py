@@ -65,7 +65,7 @@ def barrowman_drag(mach_num):
     #PRESSURE DRAG SECTION
     #Tail Pressure Drag
     S = None #exposed fin semispan measured from root chord. basically perpendicular distance from fuselage to outside edge of fin.
-    Ar_fins = None 
+    Ar_fins = None  #Reference area of a given fin. essentially, this is the area of the fin projected onto the horizontal plane. 
     DeltaCd = None
     rL = None #this is the radius of the leading edge of the fins
     GammaL = None #leading edge sweep angle in degrees
@@ -101,9 +101,16 @@ def barrowman_drag(mach_num):
     else:
         Cd_BTail = (N*(1-0.52*Ma**-1.19))*(ABf/Ar_fins)/((1+18*Cf_c*(tr/hr)**2)*Ma**2)
     
-# 
+#thickness of airfoil contribution to drag
+    AR = S/(ABf)**2 #aspect ratio
+    GammaC = None #midchord line sweep angle in degrees
+    #We must determine the drag contribution of fin thickness in a compressible air subsonic regime. 
+    #The first step is calculating the prandtl correcton factor. This is determined by first calculating the drag contribution
+    #under Mach 1:
 
-
+    DeltaFactor = AR*(tr/Cr)**(1/3)
+    Cd_TT_M1 = 1.15*(tr/Cr)**(5/3)*(1.61+DeltaFactor-np.sqrt((DeltaFactor-1.43)**2+0.578))
+    
 
 
 
